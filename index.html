@@ -68,6 +68,8 @@ nav a.active,nav a:hover{color:var(--red)}
 .parcours-card{min-width:220px;max-width:230px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.05);flex-shrink:0;scroll-snap-align:start}
 .parcours-img-box{width:100%;height:120px;background:#eee}
 .parcours-img-box img{width:100%;height:100%;object-fit:cover;display:block}
+.parcours-img-box.doc{display:block;height:250px;background:#f3f5f8;padding:8px;cursor:zoom-in}
+.parcours-img-box.doc img{object-fit:contain;object-position:top;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .parcours-info{padding:12px}
 .parcours-date{display:inline-block;background:var(--blue);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;margin-bottom:6px}
 .parcours-info h4{font-size:14px;margin-bottom:4px}
@@ -115,14 +117,15 @@ nav a.active,nav a:hover{color:var(--red)}
 /* Livres */
 .books-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:22px}
 .book-card{display:flex;gap:16px;background:#fff;padding:18px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.05)}
-.book-cover{flex:0 0 120px;aspect-ratio:2/3;border-radius:6px 10px 10px 6px;overflow:hidden;box-shadow:4px 6px 14px rgba(0,0,0,.2);background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;text-align:center;padding:8px}
+.book-cover{flex:0 0 120px;align-self:flex-start;aspect-ratio:600/1000;border-radius:6px 10px 10px 6px;overflow:hidden;box-shadow:4px 6px 14px rgba(0,0,0,.2);background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;text-align:center;padding:0}
+.book-cover:not(:has(img)){padding:8px}
 .book-cover img{width:100%;height:100%;object-fit:cover;display:block}
 .book-info{display:flex;flex-direction:column;justify-content:center;min-width:0}
 .book-info h4{font-size:15px;margin-bottom:4px}
 .book-author{font-size:11px;color:var(--blue);font-weight:600;margin-bottom:8px}
 .book-info p{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:12px}
 .book-info .btn-action{flex:none;align-self:flex-start;padding:8px 18px}
-@media (max-width:576px){.book-cover{flex-basis:105px}}
+@media (max-width:576px){.book-cover{flex-basis:112px}}
 
 .site-footer{background:var(--dark);color:#fff;padding:25px 20px;text-align:center}
 .site-footer p{font-size:13px;margin-bottom:4px}
@@ -330,25 +333,23 @@ nav a.active,nav a:hover{color:var(--red)}
     <p class="section-subtitle">Mes publications :</p>
     <div class="books-grid">
       <div class="book-card">
-        <div class="book-cover"><img src="20261008_101820.jpg" alt="Couverture : Titre du livre 1" onerror="this.parentNode.textContent='Couverture du livre 1'"></div>
+        <div class="book-cover"><img src="20261008_101820.jpg" alt="Couverture : Tous sur Word et Excel" onerror="this.parentNode.textContent='Couverture du livre 1'"></div>
         <div class="book-info">
           <h4>Tous sur Word et Excel</h4>
           <span class="book-author">Par Mardoché Yombu</span>
-          <p>  Guide pour toute personne souhaitant apprendre word et Excel</p>
+          <p>Guide pour toute personne souhaitant apprendre Word et Excel.</p>
           <!-- Mettez ici le lien du livre : fichier PDF dans le dossier du site (livre1.pdf), lien Google Drive ou lien de vente -->
-          <a href="BUREAUTIQUE  MyTech Club.pdf" target="_blank" rel="noopener" class="btn-action btn-download">Lire / Télécharger</a>
+          <a href="BUREAUTIQUE%20%20MyTech%20Club.pdf" target="_blank" rel="noopener" class="btn-action btn-download">Lire / Télécharger</a>
         </div>
       </div>
       <div class="book-card">
-        <div class="book-cover"><img src="livre2.jpg" alt="Couverture : Titre du livre 2" onerror="this.parentNode.textContent='Couverture du livre 2'"></div>
+        <div class="book-cover"><img src="livre2.jpg" alt="Couverture : mémoire de licence" onerror="this.parentNode.textContent='Couverture du livre 2'"></div>
         <div class="book-info">
           <h4>Travail de fin de cycle</h4>
           <span class="book-author">Par Mardoché Yombu</span>
-          <p>LA REALISATION D'UNE PLATEFORME WEB MOBILE INTERACTIVE POUR LA
-CONSULTATION DES RESULTATS DE LA DELIBERATION, INTEGRANT LA
-MESSAGERIE ET FIL D'ACTUALITE</p>
+          <p>LA REALISATION D'UNE PLATEFORME WEB MOBILE INTERACTIVE POUR LA CONSULTATION DES RESULTATS DE LA DELIBERATION, INTEGRANT LA MESSAGERIE ET FIL D'ACTUALITE</p>
           <!-- Mettez ici le lien du livre : fichier PDF dans le dossier du site (livre2.pdf), lien Google Drive ou lien de vente -->
-          <a href="MON MEMOIRE DE LICNCE.pdf" target="_blank" rel="noopener" class="btn-action btn-download">Lire / Télécharger</a>
+          <a href="MON%20MEMOIRE%20DE%20LICNCE.pdf" target="_blank" rel="noopener" class="btn-action btn-download">Lire / Télécharger</a>
         </div>
       </div>
     </div>
@@ -442,14 +443,22 @@ function addMsg(text,who){
 const history=[];
 async function getAIReply(message){
   history.push({role:'user',content:message});
-  const r=await fetch('/api/chat',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({messages:history.slice(-10)})
-  });
-  if(!r.ok)throw new Error('Erreur serveur');
-  const data=await r.json();
-  history.push({role:'assistant',content:data.reply});
-  return data.reply;
+  try{
+    const r=await fetch('/api/assistant',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:history.slice(-10)})
+    });
+    let data=null;try{data=await r.json()}catch(e){}
+    if(!r.ok){
+      if(r.status===404&&!data)throw new Error("Fichier api/assistant.js introuvable sur le site (HTTP 404). Vérifiez qu'il est bien dans le dossier api à la racine du dépôt GitHub.");
+      throw new Error((data&&data.reply)||('Erreur HTTP '+r.status));
+    }
+    history.push({role:'assistant',content:data.reply});
+    return data.reply;
+  }catch(e){
+    history.pop();
+    throw e;
+  }
 }
 
 async function sendMsg(){
@@ -458,7 +467,7 @@ async function sendMsg(){
   addMsg(t,'user');chatText.value='';
   const wait=addMsg('...','bot');
   try{wait.textContent=await getAIReply(t)}
-  catch(e){wait.textContent="Désolé, une erreur est survenue. Réessayez plus tard."}
+  catch(e){wait.textContent=(e&&e.message&&e.message!=='Failed to fetch')?e.message:"Connexion impossible. Ouvrez le site en ligne (pas le fichier) et réessayez."}
   chatMsgs.scrollTop=chatMsgs.scrollHeight;
 }
 
